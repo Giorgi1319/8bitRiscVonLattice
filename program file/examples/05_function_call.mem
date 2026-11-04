@@ -1,0 +1,9 @@
+// Function call: JAL jumps to a function and saves the return address, JALR returns
+// Result: x1 = 1, x3 = 3 (set by the function), x7 = 7 (set after returning)
+//         -> LED1, LED3, LED7 on (leds = 10001010); x4 = 1 (return address)
+0101_100_0_00000011  // 0: JAL  x4, +3          call function at 3, x4 = 1
+0001_111_000_000111  // 1: ADDI x7, x0, 7       back from the function: LED7 on
+0101_000_0_00000000  // 2: JAL  x0, 0           halt
+0001_001_000_000001  // 3: ADDI x1, x0, 1       function: LED1 on
+0001_011_000_000011  // 4: ADDI x3, x0, 3       LED3 on
+0110_000_100_000000  // 5: JALR x0, 0(x4)       return to address 1

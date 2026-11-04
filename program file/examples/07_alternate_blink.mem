@@ -1,0 +1,20 @@
+// Alternating blink: LED1 and LED2 take turns, switching about every 0.5 s at 12 MHz
+// Delay counters x3, x5, x7 only hold even values, so LED3/5/7 never light
+0001_001_000_000001  //  0: ADDI x1, x0, 1     x1 = 1 (LED1 on)
+0001_100_000_000001  //  1: ADDI x4, x0, 1     x4 = 1 (toggle mask for x1)
+0001_110_000_000010  //  2: ADDI x6, x0, 2     x6 = 2 (toggle mask for x2)
+0001_111_000_111110  //  3: ADDI x7, x0, -2    outer  = 254   <- blink loop
+0001_101_000_111110  //  4: ADDI x5, x0, -2    middle = 254
+0001_011_000_111110  //  5: ADDI x3, x0, -2    inner  = 254
+0001_011_011_111110  //  6: ADDI x3, x3, -2    inner -= 2
+0100_000_011_000_010  //  7: BEQ  x3, x0, +2    inner done? -> 9
+0101_000_0_11111110  //  8: JAL  x0, -2        -> 6
+0001_101_101_111110  //  9: ADDI x5, x5, -2    middle -= 2
+0100_000_101_000_010  // 10: BEQ  x5, x0, +2    middle done? -> 12
+0101_000_0_11111010  // 11: JAL  x0, -6        -> 5
+0001_111_111_111110  // 12: ADDI x7, x7, -2    outer -= 2
+0100_000_111_000_010  // 13: BEQ  x7, x0, +2    outer done? -> 15
+0101_000_0_11110110  // 14: JAL  x0, -10       -> 4
+0000_001_001_100_100  // 15: XOR  x1, x1, x4    toggle LED1
+0000_010_010_110_100  // 16: XOR  x2, x2, x6    toggle LED2
+0101_000_0_11110010  // 17: JAL  x0, -14       -> 3 (repeat forever)

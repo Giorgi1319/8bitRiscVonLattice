@@ -1,0 +1,9 @@
+// LED test: each LED n lights when register xn == n
+// Result: LED2, LED3, LED7 on (leds = 10001100)
+0001_001_000_000001  // 0: ADDI x1, x0, 1   x1 = 1 -> LED1 on
+0001_010_000_000010  // 1: ADDI x2, x0, 2   x2 = 2 -> LED2 on
+0001_011_000_000101  // 2: ADDI x3, x0, 5   x3 = 5 -> LED3 stays off
+0001_011_000_000011  // 3: ADDI x3, x0, 3   x3 = 3 -> LED3 on
+0001_111_000_000111  // 4: ADDI x7, x0, 7   x7 = 7 -> LED7 on
+0001_001_000_000000  // 5: ADDI x1, x0, 0   x1 = 0 -> LED1 off
+0101_000_0_00000000  // 6: JAL  x0, 0       halt (jump to itself)

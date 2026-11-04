@@ -1,0 +1,7 @@
+// Loop: count x5 up from 0 until it equals x4 (there is no BNE, so BEQ exits the loop)
+// Result: x5 = 5 -> LED5 on (leds = 00100000)
+0001_100_000_000101  // 0: ADDI x4, x0, 5       x4 = 5 (the limit; LED4 stays off)
+0001_101_101_000001  // 1: ADDI x5, x5, 1       x5 = x5 + 1         <- loop
+0100_000_101_100_010  // 2: BEQ  x5, x4, +2      x5 == 5? -> 4 (exit)
+0101_000_0_11111110  // 3: JAL  x0, -2          -> 1 (repeat)
+0101_000_0_00000000  // 4: JAL  x0, 0           halt

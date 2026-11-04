@@ -1,0 +1,11 @@
+// Data memory: store two values with SW, clear the register, read them back with LW
+// Result: x6 = 6, x2 = 2 -> LED6 and LED2 on (leds = 01000100); mem[10] = 6, mem[11] = 2
+0001_001_000_000110  // 0: ADDI x1, x0, 6       x1 = 6
+0011_001_000_001_010  // 1: SW   x1, 10(x0)      mem[10] = 6
+0001_001_000_000010  // 2: ADDI x1, x0, 2       x1 = 2
+0011_001_000_001_011  // 3: SW   x1, 11(x0)      mem[11] = 2
+0001_001_000_000000  // 4: ADDI x1, x0, 0       x1 = 0 (forget the values)
+0001_011_000_001010  // 5: ADDI x3, x0, 10      x3 = 10 (pointer to mem[10])
+0010_110_011_000000  // 6: LW   x6, 0(x3)       x6 = mem[10] = 6 -> LED6 on
+0010_010_011_000001  // 7: LW   x2, 1(x3)       x2 = mem[11] = 2 -> LED2 on
+0101_000_0_00000000  // 8: JAL  x0, 0           halt
